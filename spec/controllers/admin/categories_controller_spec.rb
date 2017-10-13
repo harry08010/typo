@@ -33,7 +33,28 @@ describe Admin::CategoriesController do
       assigns(:categories).should_not be_nil
     end
   end
+  
+  
+  describe "test_new" do
+    before(:each) do
+      get :new
+    end
 
+    it 'should render template new' do
+      assert_template 'new'
+    end
+
+    it 'should have valid category' do
+      assigns(:category).should_not be_nil
+      expect(assigns(:category).class).to be Category
+    end
+  end
+  
+  it 'should add a new category' do
+      post :new, :category => { :name => 'Study', :keywords => 'Hard-working', :description => 'Life is good'}
+      assert_response :redirect, :action => 'new'
+    end
+  
   it "test_update" do
     post :edit, :id => Factory(:category).id
     assert_response :redirect, :action => 'index'
